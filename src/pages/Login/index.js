@@ -3,9 +3,16 @@ import { useState } from "react";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [usernameError, setUsernameError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
 
   const handleLogin = () => {
-    if (username === "admin" && password === "1234") {
+    if (username === "" || password === "") {
+      if (username === "") setUsernameError(true);
+      if (password === "") setPasswordError(true);
+      // alert("帳號或密碼不能為空");
+    } else if (username === "user@example.com" && password === "strongpassword") {
+      console.log(username +" \n"+ password )
       alert("登入成功");
     } else {
       alert("帳號或密碼錯誤");
@@ -19,17 +26,19 @@ export default function Login() {
           登入您的帳號
         </h2>
 
+
         {/* 帳號輸入框 */}
         <div className="mb-6">
           <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="username">帳號</label>
           <input
             id="username"
             type="text"
-            placeholder="請輸入帳號"
+            placeholder="請輸入信箱"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`w-full p-4 border ${usernameError ? "border-red-500" : "border-gray-300"} rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
           />
+          {usernameError && <p className="text-red-500 text-xs">請輸入有效的電子郵件地址</p>} {/* 顯示錯誤提示 */}
         </div>
 
         {/* 密碼輸入框 */}
@@ -41,8 +50,9 @@ export default function Login() {
             placeholder="請輸入密碼"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`w-full p-4 border ${passwordError ? "border-red-500" : "border-gray-300"} rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
           />
+          {passwordError && <p className="text-red-500 text-xs">請輸入密碼</p>} {/* 顯示錯誤提示 */}
         </div>
 
         {/* 登入按鈕 */}
@@ -55,7 +65,10 @@ export default function Login() {
 
         {/* 註冊按鈕 */}
         <div className="text-center mt-4">
-          <button className="text-blue-600 hover:text-blue-700">沒有帳號？註冊</button>
+          <button 
+            className="text-blue-600 hover:text-blue-700"
+            onClick={() => window.location.href = "/register"} 
+          >沒有帳號？註冊</button>
         </div>
       </div>
     </div>
